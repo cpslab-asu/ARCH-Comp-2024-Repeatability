@@ -19,7 +19,7 @@ ALLOWED_COMBINATIONS = {
 
 def _get_benchmark(name, instance, results_folder):
 
-    if instance not in ALLOWED_COMBINATIONS[name]:
+    if int(instance) not in ALLOWED_COMBINATIONS[name]:
         raise ValueError(f"{name} does not have Instance {instance}")
     
     print(f"Running {name} with instance {instance}!!")
