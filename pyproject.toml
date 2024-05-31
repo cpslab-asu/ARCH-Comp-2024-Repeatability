@@ -9,7 +9,7 @@ python = ">=3.9,<3.10"
 matlabengine= "9.12.21"
 botorch = "^0.10.0"
 partx = {git = "git@github.com:cpslab-asu/part-x.git", rev="f296c40"}
-lsemibo = {git="git@github.com:cpslab-asu/ConBO.git", rev = "ded3bad"}
+lsemibo = {git="git@github.com:cpslab-asu/ConBO.git", rev = "85ce00a"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
