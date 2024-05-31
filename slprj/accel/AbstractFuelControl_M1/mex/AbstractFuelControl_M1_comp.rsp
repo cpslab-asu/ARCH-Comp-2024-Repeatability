@@ -1,0 +1,5 @@
+﻿-IE:\LSemiBO\LSemiBO\demos
+-IE:\LSemiBO\LSemiBO\demos\slprj\accel\AbstractFuelControl_M1
+-I"C:\Program Files\MATLAB\R2022a\extern\include"
+-I"C:\Program Files\MATLAB\R2022a\simulink\include"
+-I"C:\Program Files\MATLAB\R2022a\rtw\c\src"
