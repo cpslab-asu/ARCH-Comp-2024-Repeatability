@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ARCH_Repeatability_PsyTaLiRo_2024"
+version = "0.1"
+description = ""
+authors = ["daittan <tkhandai@asu.edu>"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.10"
+matlabengine= "9.12.21"
+botorch = "^0.10.0"
+partx = {git = "git@github.com:cpslab-asu/part-x.git", rev="f296c40"}
+lsemibo = {git="git@github.com:cpslab-asu/ConBO.git", rev = "ded3bad"}
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

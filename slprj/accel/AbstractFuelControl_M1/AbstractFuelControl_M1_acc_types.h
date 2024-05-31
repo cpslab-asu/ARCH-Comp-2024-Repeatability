@@ -1,4 +1,0 @@
-#ifndef RTW_HEADER_AbstractFuelControl_M1_acc_types_h_
-#define RTW_HEADER_AbstractFuelControl_M1_acc_types_h_
-typedef struct P_AbstractFuelControl_M1_T_ P_AbstractFuelControl_M1_T ;
-#endif
