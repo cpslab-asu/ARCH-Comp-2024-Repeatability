@@ -76,9 +76,9 @@ F16_PARAM_MAP = OrderedDict({
     }
 })
 
-class Benchmark_AFC2x(Benchmark):
+class Benchmark_F16(Benchmark):
     def __init__(self, benchmark, instance, results_folder) -> None:
-        if benchmark != "AFC2x":
+        if benchmark != "F16":
             raise ValueError("Inappropriate Benchmark name")
 
         self.benchmark = benchmark
@@ -139,6 +139,6 @@ class Benchmark_AFC2x(Benchmark):
             base_path = pathlib.Path()
             result_directory = base_path.joinpath(self.results_folder)
             result_directory.mkdir(exist_ok=True)
-            save_path = result_directory.join(f"{self.benchmark}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_instance_{self.instance}")
+            save_path = result_directory.joinpath(f"{self.benchmark}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_instance_{self.instance}")
             with open(save_path, 'wb') as file:
                     pickle.dump(result, file)

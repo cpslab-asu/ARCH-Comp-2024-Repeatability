@@ -18,9 +18,9 @@ from staliro.signals import piecewise_constant
  
  
 # Define Signals and Specification
-class Benchmark_AFC2x(Benchmark):
+class Benchmark_AFC33(Benchmark):
     def __init__(self, benchmark, instance, results_folder) -> None:
-        if benchmark != "AFC2x":
+        if benchmark != "AFC33":
             raise ValueError("Inappropriate Benchmark name")
 
         self.benchmark = benchmark
@@ -87,7 +87,7 @@ class Benchmark_AFC2x(Benchmark):
             base_path = pathlib.Path()
             result_directory = base_path.joinpath(self.results_folder)
             result_directory.mkdir(exist_ok=True)
-            save_path = result_directory.join(f"{self.benchmark}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_instance_{self.instance}_repnumber{i}")
+            save_path = result_directory.joinpath(f"{self.benchmark}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_instance_{self.instance}_repnumber{i}")
             with open(save_path, 'wb') as file:
                     pickle.dump(result, file)
     

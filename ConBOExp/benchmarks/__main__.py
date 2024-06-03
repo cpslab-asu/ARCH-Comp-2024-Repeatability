@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from importlib import import_module
 from sys import exit
 
-ALL_BENCHMARKS = {"ATall", "CCall", "NN1x", "NNx", "AFC2x", "SC", "F16", "PM"}
+ALL_BENCHMARKS = {"ATall", "CCall", "NN1x", "NNx", "AFC2x", "AFC33", "SC", "F16", "PM"}
 
 ALLOWED_COMBINATIONS = {
     "ATall": [1,2],
@@ -12,6 +12,7 @@ ALLOWED_COMBINATIONS = {
     "NN1x" : [1,2],
     "NNx": [1,2],
     "AFC2x": [2],
+    "AFC33": [2],
     "SC": [1,2],
     "F16": [0],
     "PM": [1,2]
@@ -24,16 +25,16 @@ def _get_benchmark(name, instance, results_folder):
     
     print(f"Running {name} with instance {instance}!!")
     
-    
-    if instance == "1":
+    if instance == "0":
+        if "F16" in name:
+            mod = import_module(f"F16_benchmark.run_{name}_I0")
+    elif instance == "1":
         if "AT" in name:
             mod = import_module(f"AT_benchmark.run_{name}_I1")
         elif "CC" in name:
             mod = import_module(f"CC_benchmark.run_{name}_I1")
         elif "NN" in name:
             mod = import_module(f"NN_benchmark.run_{name}_I1")
-        elif "F16" in name:
-            mod = import_module(f"F16_benchmark.run_{name}_I0")        
         elif "SC" in name:
             mod = import_module(f"SC_benchmark.run_{name}_I1")        
         elif "PM" in name:
@@ -45,8 +46,8 @@ def _get_benchmark(name, instance, results_folder):
             mod = import_module(f"CC_benchmark.run_{name}_I2")
         elif "NN" in name:
             mod = import_module(f"NN_benchmark.run_{name}_I2")
-        elif "F16" in name:
-            mod = import_module(f"F16_benchmark.run_{name}_I0")        
+        elif "AFC" in name:
+            mod = import_module(f"AFC_benchmark.run_{name}_I2")       
         elif "SC" in name:
             mod = import_module(f"SC_benchmark.run_{name}_I2")        
         elif "PM" in name:
