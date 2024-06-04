@@ -38,6 +38,23 @@ def _get_benchmark(model, property_name, instance, results_folder):
     elif instance == "1":
         if "AT" in model:
             mod = import_module(f"AT_benchmark.run_{model}")
+        elif "NN" in model:
+            mod = import_module(f"NN_benchmark.run_{model}")
+        elif "CC" in model:
+            mod = import_module(f"CC_benchmark.run_{model}")
+        elif "SC" in model:
+            mod = import_module(f"SC_benchmark.run_{model}")
+    elif instance == "2":
+        if "AT" in model:
+            mod = import_module(f"AT_benchmark.run_{model}")
+        elif "NN" in model:
+            mod = import_module(f"NN_benchmark.run_{model}")
+        elif "CC" in model:
+            mod = import_module(f"CC_benchmark.run_{model}")
+        elif "SC" in model:
+            mod = import_module(f"SC_benchmark.run_{model}")
+        elif "AFC" in model:
+            mod = import_module(f"AFC_benchmark.run_{model}")
         
     cls_name = f"Benchmark_{model}"
     ctor = getattr(mod, cls_name)
