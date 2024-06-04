@@ -1,5 +1,5 @@
 from staliro.core.interval import Interval
-from staliro.core.model import Model, ModelInputs, Trace, BasicResult, ModelResult
+from staliro.core.model import Model, ModelInputs, Trace, ExtraResult
 import numpy as np
 from numpy.typing import NDArray
 try:
@@ -11,7 +11,7 @@ else:
     _has_matlab = True
  
 AutotransDataT = NDArray[np.float_]
-AutotransResultT = ModelResult[AutotransDataT, None]
+AutotransResultT = ExtraResult[AutotransDataT, AutotransDataT]
  
  
 class AutotransModel(Model[AutotransDataT, None]):
@@ -47,5 +47,5 @@ class AutotransModel(Model[AutotransDataT, None]):
         data_list = np.array(data)
         trace = Trace(timestamps_list, data_list)
 
-        
-        return BasicResult(trace)
+        inTrace = Trace(signal_times, signal_values)
+        return AutotransResultT(trace, inTrace)

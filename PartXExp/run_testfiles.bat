@@ -1,0 +1,11 @@
+poetry run python -m benchmarks.misc_files.test_AT_I1
+poetry run python -m benchmarks.misc_files.test_AT_I2
+poetry run python -m benchmarks.misc_files.test_CC_I1
+poetry run python -m benchmarks.misc_files.test_CC_I2
+poetry run python -m benchmarks.misc_files.test_NN_I1
+poetry run python -m benchmarks.misc_files.test_NN_I2
+poetry run python -m benchmarks.misc_files.test_SC_I1
+poetry run python -m benchmarks.misc_files.test_SC_I2
+poetry run python -m benchmarks.misc_files.test_F16_I0
+poetry run python -m benchmarks.misc_files.test_AFC2x_I2
+poetry run python -m benchmarks.misc_files.test_AFC33_I2
