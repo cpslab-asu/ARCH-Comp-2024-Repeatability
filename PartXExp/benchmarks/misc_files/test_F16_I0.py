@@ -85,10 +85,7 @@ spec_dict = {
 
 #####################################################################################################
 # Define Signals
-signals = [
-    SignalOptions(control_points = [(0., 1.)] * 10, signal_times=np.linspace(0.0, 100.0, 10)),
-    SignalOptions(control_points = [(0., 1.)] * 10, signal_times=np.linspace(0.0, 100.0, 10))
-]
+
 
 #####################################################################################################
 # Define Options

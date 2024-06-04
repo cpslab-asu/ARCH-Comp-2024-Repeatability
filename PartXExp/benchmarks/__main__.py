@@ -3,44 +3,69 @@
 from argparse import ArgumentParser
 from importlib import import_module
 from sys import exit
+import json
 
-ALL_BENCHMARKS = {"AT1", "AT2", "AT51", "AT52", "AT53", "AT54", "AT61", "AT62", "AT63", "AT64", "CC1", "CC2", "CC3", "CC4", "CC5", "CCx"}
+ALL_COMBINATIONS = {
+    "AT": {
+        "1": ["AT1", "AT2", "AT51", "AT52", "AT53", "AT54", "AT6a", "AT6b", "AT6c", "AT6abc"],
+        "2": ["AT1", "AT2", "AT51", "AT52", "AT53", "AT54", "AT6a", "AT6b", "AT6c", "AT6abc"],
+    }, 
+    "NN": {
+        "1": ["NN1", "NN2", "NNx"],
+        "2": ["NN1", "NN2", "NNx"]
+    }, 
+    "CC": {
+        "1": ["CC1", "CC2", "CC3", "CC4", "CC5", "CCx"],
+        "2": ["CC1", "CC2", "CC3", "CC4", "CC5", "CCx"]
+    }, 
+    "F16": {
+        "0": ["F16a"]
+    }, 
+    "SC": {
+        "1": ["SCa"],
+        "2": ["SCa"]
+    }, 
+    "AFC": {
+        "2": ["AFC27", "AFC29", "AFC33"]
+    }
+}
 
-def _get_benchmark(name, instance, results_folder):
-    if instance == "1":
-        if "AT" in name:
-            mod = import_module(f"AT_benchmark_I1.run_{name}")
-        elif "CC" in name:
-            mod = import_module(f"CC_benchmark_I1.run_{name}")
-    elif instance == "2":
-        if "AT" in name:
-            mod = import_module(f"AT_benchmark_I2.run_{name}")
-        elif "CC" in name:
-            mod = import_module(f"CC_benchmark_I2.run_{name}")
-
-    cls_name = f"Benchmark_{name}"
+def _get_benchmark(model, property_name, instance, results_folder):
+    
+    if instance == "0":
+        if "F16" in model:
+            mod = import_module(f"F16_benchmark.run_{model}_I0")
+    elif instance == "1":
+        if "AT" in model:
+            mod = import_module(f"AT_benchmark.run_{model}")
+        
+    cls_name = f"Benchmark_{model}"
     ctor = getattr(mod, cls_name)
 
-    return ctor(name, instance, results_folder)
+    return ctor(property_name, int(instance), results_folder)
 
 
 if __name__ == "__main__":
-    parser = ArgumentParser(description="Run arch benchmarks")
-    parser.add_argument("-b", "--benchmark", default = "")
-    # parser.add_argument("benchmark", nargs="*", help="Name of benchmarks to run")
-    parser.add_argument("-i", "--instance", default = "")
-    parser.add_argument("-f", "--folder", default = "/scratch/tkhandai/Arch_Comp_2024")
+
+    parser = ArgumentParser(description=f"Run arch benchmarks \n {ALL_COMBINATIONS}")
+    parser.add_argument("-m", "--model", default = "", help = "Model Name")
+    parser.add_argument("-p", "--property", default = "", help = "Property Name")
+    parser.add_argument("-i", "--instance", default = "", help = "Instance number")
+    parser.add_argument("-f", "--folder", default = "/scratch/tkhandai/Arch_Comp_2024/LSemiBO")
     
     args = parser.parse_args()
     
-    if args.benchmark not in ALL_BENCHMARKS:
-        # print(benchmark_names)
-        raise ValueError(f"Unknown benchmark {args.benchmark}")
-    results_folder = args.folder
-    
-    benchmarks = _get_benchmark(args.benchmark, args.instance, results_folder)
+    if args.model in ALL_COMBINATIONS.keys():
+        if args.instance in ALL_COMBINATIONS[args.model].keys():
+            if args.property in ALL_COMBINATIONS[args.model][args.instance]:
+                results_folder = args.folder
+                
+                benchmarks = _get_benchmark(args.model, args.property, args.instance, results_folder)
 
-    if not benchmarks:
-        raise ValueError("Must specify at least one benchmark to run")
-
-    results = benchmarks.run()
+                results = benchmarks.run()
+            else:
+                raise ValueError(f"Unknown property {args.property} for model {args.model} Instance {args.instance}. \nAllowed = {ALL_COMBINATIONS[args.model][args.instance]}")
+        else:
+            raise ValueError(f"Unknown instance {args.instance} for model {args.model}. \nAllowed = {[x for x in ALL_COMBINATIONS[args.model].keys()]}")
+    else:
+        raise ValueError(f"Unknown model {args.model}. \nAllowed = {[x for x in ALL_COMBINATIONS.keys()]}")
