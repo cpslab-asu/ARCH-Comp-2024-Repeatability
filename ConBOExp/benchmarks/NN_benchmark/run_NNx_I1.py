@@ -75,7 +75,7 @@ class Benchmark_NNx(Benchmark):
         
         for i in range(self.NUMBER_OF_MACRO_REPLICATIONS):
             lsemibo = LSemiBOOptimizer( 
-                method = "falsification",
+                method = "falsification_elimination",
                 is_budget = self.is_budget,
                 max_budget= self.max_budget,
                 cs_budget = self.cs_budget,
