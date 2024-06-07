@@ -68,7 +68,7 @@ if __name__ == "__main__":
     parser.add_argument("-m", "--model", default = "", help = "Model Name")
     parser.add_argument("-p", "--property", default = "", help = "Property Name")
     parser.add_argument("-i", "--instance", default = "", help = "Instance number")
-    parser.add_argument("-f", "--folder", default = "/scratch/tkhandai/Arch_Comp_2024/LSemiBO")
+    parser.add_argument("-f", "--folder", default = "/scratch/tkhandai/Arch_Comp_2024/PartX")
     
     args = parser.parse_args()
     

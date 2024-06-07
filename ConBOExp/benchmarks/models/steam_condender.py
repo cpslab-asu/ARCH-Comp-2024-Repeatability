@@ -1,5 +1,5 @@
 from staliro.core.interval import Interval
-from staliro.core.model import Model, ModelInputs, Trace, BasicResult, ModelResult
+from staliro.core.model import Model, ModelInputs, Trace, ExtraResult
 import numpy as np
 from numpy.typing import NDArray
 try:
@@ -12,7 +12,7 @@ else:
  
 
 SCDataT = NDArray[np.float_]
-SCResultT = ModelResult[SCDataT, None]
+SCResultT = ExtraResult[SCDataT, SCDataT]
 
 
 class SCModel(Model[SCResultT, None]):
@@ -54,4 +54,6 @@ class SCModel(Model[SCResultT, None]):
         # print(timestamps_array)
         # print(timestamps_array.shape)
         # print(diff_array.T.shape)
-        return BasicResult(Trace(timestamps_array, data_array.T))
+        outTrace = Trace(timestamps_array, data_array)
+        inTrace = Trace(signal_times, signal_values)
+        return SCResultT(outTrace, inTrace)

@@ -1,5 +1,5 @@
 from staliro.core.interval import Interval
-from staliro.core.model import Model, ModelInputs, Trace, BasicResult, ModelResult
+from staliro.core.model import Model, ModelInputs, Trace, ExtraResult
 import numpy as np
 from numpy.typing import NDArray
 try:
@@ -12,7 +12,7 @@ else:
  
 
 AFCDataT = NDArray[np.float_]
-AFCResultT = ModelResult[AFCDataT, None]
+AFCResultT = ExtraResult[AFCDataT, AFCDataT]
 
 
 class AFCModel(Model[AFCResultT, None]):
@@ -51,22 +51,22 @@ class AFCModel(Model[AFCResultT, None]):
         self.model_opts = engine.simset(model_opts, "SaveFormat", "Array")
 
     def simulate(
-        self, inputs:ModelInputs, intrvl: Interval
+        self, signals:ModelInputs, intrvl: Interval
     ) -> AFCResultT:
         
         
         
         sim_t = matlab.double([0, intrvl.upper])
-        n_times = intrvl.length // self.sampling_step + 2
+        n_times = (intrvl.length // self.sampling_step) + 2
         signal_times = np.linspace(intrvl.lower, intrvl.upper, int(n_times))
-        w = (inputs.signals[0].at_times(signal_times))
-        throttle = (inputs.signals[1].at_times(signal_times))
-        model_input = matlab.double(np.row_stack((signal_times, w, throttle)).T.tolist())
+        signal_values = np.array([[signal.at_time(t) for t in signal_times] for signal in signals.signals])
+        model_input = matlab.double(np.row_stack((signal_times, signal_values)).T.tolist())
         
         timestamps, _, data = self.engine.sim(
         self.MODEL_NAME, sim_t, self.model_opts, model_input, nargout=3
         )
         timestamps_array = np.array(timestamps).flatten()
         data_array = np.array(data)
-        
-        return BasicResult(Trace(timestamps_array, data_array.T))
+        outtrace = Trace(timestamps_array, data_array)
+        inTrace = Trace(signal_times, signal_values)
+        return AFCResultT(outtrace, inTrace)

@@ -25,7 +25,7 @@ class Benchmark_SC(Benchmark):
         
  
         SC_phi = "G[30,35] ((pressure <= 87.5) and (pressure >= 87))"
-        self.pred_map = {"pressure":([0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17], 0)}
+        self.pred_map = {"pressure":([0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17], 3)}
 
         
         self.is_budget = 100
@@ -76,10 +76,16 @@ class Benchmark_SC(Benchmark):
                 seed= self.seed+i)
             
             result = staliro(self.model, self.specification, lsemibo, self.options)
+            
             base_path = pathlib.Path()
             result_directory = base_path.joinpath(self.results_folder)
             result_directory.mkdir(exist_ok=True)
-            save_path = result_directory.joinpath(f"{self.benchmark}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_instance_{self.instance}_repnumber{i}")
+
+            benchmark_directory = result_directory.joinpath(f"Benchmark_{self.benchmark}_instance_{self.instance}")
+            benchmark_directory.mkdir(exist_ok=True)
+
+            
+            save_path = benchmark_directory.joinpath(f"benchmark_{self.benchmark}_instance_{self.instance}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_{i}_repnumber")
             with open(save_path, 'wb') as file:
                     pickle.dump(result, file)
 

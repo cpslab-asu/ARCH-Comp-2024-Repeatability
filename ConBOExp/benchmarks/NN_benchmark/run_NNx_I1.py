@@ -36,13 +36,19 @@ class Benchmark_NNx(Benchmark):
 
         self.top_k = 3
         self.classified_sample_bias = 0.9
-        self.tf_dim = 3
+        self.tf_dim = 8
         self.seed = 123466
         self.instance = instance
         self.phi_list = [phi_1, phi_2, phi_3]
         
         #self.phi_list = [AT1_phi]
-        self.pred_map = {"pos":([0,1,2], 0)}
+        self.pred_map = {"pos":([0,1,2], 0),
+                        "ref": ([0,1,2], 1) ,
+                        "p1":([0,1,2], 2),
+                        "p2":([0,1,2], 3),
+                        "p3":([0,1,2], 4),
+                        "p4":([0,1,2], 5)
+                    }
 
         self.R = 10
         self.M = 500
@@ -51,13 +57,13 @@ class Benchmark_NNx(Benchmark):
         self.model = NNModel()
 
         signals = [
-            SignalOptions(control_points = [(1,3)]*3, signal_times=np.linspace(0.,3.,3)),
-            ]
+                SignalOptions(control_points = [(1,3)]*8, signal_times=np.linspace(0.,40.,8)),
+        ]
 
         self.options = Options(
             runs=1,
             iterations=self.max_budget,
-            interval=(0, 3),
+            interval=(0, 40),
             signals=signals,
         )
         
@@ -86,10 +92,16 @@ class Benchmark_NNx(Benchmark):
                 seed= self.seed+i)
             
             result = staliro(self.model, self.specification, lsemibo, self.options)
+            
             base_path = pathlib.Path()
             result_directory = base_path.joinpath(self.results_folder)
             result_directory.mkdir(exist_ok=True)
-            save_path = result_directory.joinpath(f"{self.benchmark}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_instance_{self.instance}_repnumber{i}")
+
+            benchmark_directory = result_directory.joinpath(f"Benchmark_{self.benchmark}_instance_{self.instance}")
+            benchmark_directory.mkdir(exist_ok=True)
+
+            
+            save_path = benchmark_directory.joinpath(f"benchmark_{self.benchmark}_instance_{self.instance}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_{i}_repnumber")
             with open(save_path, 'wb') as file:
                     pickle.dump(result, file)
 

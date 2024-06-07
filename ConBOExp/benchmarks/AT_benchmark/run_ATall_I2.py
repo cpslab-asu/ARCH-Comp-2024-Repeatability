@@ -69,9 +69,10 @@ class Benchmark_ATall(Benchmark):
         self.model = AutotransModel()
 
         signals = [
-            SignalOptions(control_points = [(0, 100)]*7, signal_times=np.linspace(0.,50.,7, endpoint = False), factory=piecewise_constant),
-            SignalOptions(control_points = [(0, 325)]*3, signal_times=np.linspace(0.,50.,3, endpoint = False), factory=piecewise_constant),
-            ]
+            SignalOptions(control_points = [(0, 100)]*7, signal_times=np.linspace(0.,50.,7, endpoint=False), factory=piecewise_constant),
+            SignalOptions(control_points = [(0, 325)]*3, signal_times=np.linspace(0.,50.,3, endpoint=False), factory=piecewise_constant),
+        ]
+
         self.options = Options(runs=1, iterations=self.max_budget, interval=(0, 50),  signals=signals)
         
         
@@ -99,9 +100,15 @@ class Benchmark_ATall(Benchmark):
                 seed= self.seed+i)
             
             result = staliro(self.model, self.specification, lsemibo, self.options)
+            
             base_path = pathlib.Path()
             result_directory = base_path.joinpath(self.results_folder)
             result_directory.mkdir(exist_ok=True)
-            save_path = result_directory.joinpath(f"{self.benchmark}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_instance_{self.instance}_repnumber{i}")
+
+            benchmark_directory = result_directory.joinpath(f"Benchmark_{self.benchmark}_instance_{self.instance}")
+            benchmark_directory.mkdir(exist_ok=True)
+
+            
+            save_path = benchmark_directory.joinpath(f"benchmark_{self.benchmark}_instance_{self.instance}_budget_{self.max_budget}_{self.NUMBER_OF_MACRO_REPLICATIONS}_reps_{i}_repnumber")
             with open(save_path, 'wb') as file:
                     pickle.dump(result, file)

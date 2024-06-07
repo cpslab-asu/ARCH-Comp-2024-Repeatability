@@ -1,5 +1,5 @@
 from staliro.core.interval import Interval
-from staliro.core.model import Model, ModelInputs, Trace, BasicResult, ModelResult
+from staliro.core.model import Model, ModelInputs, Trace, ExtraResult
 import numpy as np
 from numpy.typing import NDArray
 try:
@@ -12,7 +12,7 @@ else:
  
 
 NNDataT = NDArray[np.float_]
-NNResultT = ModelResult[NNDataT, None]
+NNResultT = ExtraResult[NNDataT, NNDataT]
 
 from matplotlib import pyplot as plt
 class NNModel(Model[NNResultT, None]):
@@ -28,7 +28,7 @@ class NNModel(Model[NNResultT, None]):
         # engine.addpath("examples")
         model_opts = engine.simget(self.MODEL_NAME)
         
-        self.sampling_step = 0.001
+        self.sampling_step = 0.01
         self.engine = engine
         self.model_opts = engine.simset(model_opts, "SaveFormat", "Array")
 
@@ -74,6 +74,7 @@ class NNModel(Model[NNResultT, None]):
         p3 = pos_ref_mod - (self.alpha_2 + (self.beta_2 * mod_ref))
         p4 = (self.alpha_2 + (self.beta_2 * mod_ref)) - pos_ref_mod
 
-        sim_data = np.vstack([pos, p1, p2, p3, p4])
-        
-        return BasicResult(Trace(timestamps_array, sim_data))
+        sim_data = np.vstack([pos, data_array[:,2], p1, p2, p3, p4])
+        outTrace = Trace(timestamps_array, sim_data.T)
+        inTrace = Trace(signal_times, signal_values)
+        return NNResultT(outTrace, inTrace)

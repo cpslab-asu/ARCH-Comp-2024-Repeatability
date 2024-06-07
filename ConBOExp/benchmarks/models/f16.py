@@ -1,5 +1,5 @@
 from staliro.core.interval import Interval
-from staliro.core.model import Model, ModelInputs, Trace, BasicResult, ModelResult
+from staliro.core.model import Model, ModelInputs, Trace, ExtraResult
 import numpy as np
 from numpy.typing import NDArray
 
@@ -8,7 +8,7 @@ from aerobench.examples.gcas.gcas_autopilot import GcasAutopilot
 
 
 F16DataT = NDArray[np.float_]
-F16ResultT = ModelResult[F16DataT, None]
+F16ResultT = ExtraResult[F16DataT, F16DataT]
 
 
 class F16Model(Model[F16ResultT, None]):
@@ -50,5 +50,7 @@ class F16Model(Model[F16ResultT, None]):
         trajectories = result["states"][:, 11:12].T.astype(np.float64)
 
         timestamps = np.array(result["times"], dtype=(np.float32))
-
-        return BasicResult(Trace(timestamps, trajectories))
+        outTrace = Trace(timestamps, trajectories)
+        print(inputs.static)
+        inTrace = inputs.static
+        return F16ResultT(outTrace, inTrace)

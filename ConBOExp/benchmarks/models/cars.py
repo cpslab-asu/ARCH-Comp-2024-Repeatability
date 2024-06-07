@@ -1,5 +1,5 @@
 from staliro.core.interval import Interval
-from staliro.core.model import Model, ModelInputs, Trace, BasicResult, ModelResult
+from staliro.core.model import Model, ModelInputs, Trace, ExtraResult
 import numpy as np
 from numpy.typing import NDArray
 try:
@@ -12,7 +12,7 @@ else:
  
 
 CCDataT = NDArray[np.float_]
-CCResultT = ModelResult[CCDataT, None]
+CCResultT = ExtraResult[CCDataT, CCDataT]
 
 class CCModel(Model[CCResultT, None]):
     MODEL_NAME = "cars"
@@ -54,5 +54,5 @@ class CCModel(Model[CCResultT, None]):
         data_list = np.array(diff_array)
         trace = Trace(timestamps_list, data_list)
 
-        
-        return BasicResult(trace)
+        inTrace = Trace(signal_times, signal_values)
+        return CCResultT(trace, inTrace)
