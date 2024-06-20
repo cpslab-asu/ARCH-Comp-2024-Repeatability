@@ -26,7 +26,7 @@ spec_dict = {
 # Define Signals
 
 signals = [
-    SignalOptions(control_points = [(3.95, 4.01)]*18, signal_times=np.linspace(0.,35.,18)),
+    SignalOptions(control_points = [(3.99, 4.01)]*18, signal_times=np.linspace(0.,35.,18)),
 ]
 
 #####################################################################################################

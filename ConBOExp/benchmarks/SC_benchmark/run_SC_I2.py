@@ -49,7 +49,7 @@ class Benchmark_SC(Benchmark):
         self.model = SCModel()
 
         signals = [
-            SignalOptions(control_points = [(3.95, 4.01)]*20, signal_times=np.linspace(0.,35.,20, endpoint = False), factory=piecewise_constant),
+            SignalOptions(control_points = [(3.99, 4.01)]*20, signal_times=np.linspace(0.,35.,20, endpoint = False), factory=piecewise_constant),
         ]
         self.options = Options(runs=1, iterations=self.max_budget, interval=(0, 35),  signals=signals)
         

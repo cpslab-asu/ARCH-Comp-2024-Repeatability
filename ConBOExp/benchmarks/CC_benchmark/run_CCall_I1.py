@@ -14,9 +14,9 @@ from staliro.staliro import staliro
 from staliro.options import Options, SignalOptions
 
 
-class Benchmark_CC(Benchmark):
+class Benchmark_CCall(Benchmark):
     def __init__(self, benchmark, instance, results_folder) -> None:
-        if benchmark != "CC":
+        if benchmark != "CCall":
             raise ValueError("Inappropriate Benchmark name")
 
         self.benchmark = benchmark

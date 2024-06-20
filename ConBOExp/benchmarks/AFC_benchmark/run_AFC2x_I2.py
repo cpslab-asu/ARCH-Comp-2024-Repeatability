@@ -16,28 +16,21 @@ from staliro.staliro import staliro
 from staliro.options import Options, SignalOptions
 from staliro.signals import piecewise_constant
 
- 
- 
 # Define Signals and Specification
 class Benchmark_AFC2x(Benchmark):
     def __init__(self, benchmark, instance, results_folder) -> None:
         if benchmark != "AFC2x":
             raise ValueError("Inappropriate Benchmark name")
 
-        self.benchmark = benchmark
-        self.results_folder = results_folder
-        
         rise = "(theta <= 8.8) and (F[0,0.05] (theta >= 40))"
         fall = "(theta >= 40) and (F[0,0.05] (theta <= 8.8))"
         mod_u_1 = "G[1,5] ((ut <= 0.008) and (ut >= -0.008))"
-        AFC27_phi = f"G[11,50] (({rise} or {fall}) -> ({mod_u_1}))"
-        
-
-
+        AFC27_phi = f"G[11,50] (({rise} or {fall}) -> ({mod_u_1}))"        
         mod_u_2 = "(ut <= 0.007) and (ut >= -0.007)"
         AFC29_phi = f"G[11,50] ({mod_u_2})"
 
-        
+        self.benchmark = benchmark
+        self.results_folder = results_folder
         self.is_budget = 100
         self.cs_budget = 1000
         self.max_budget = 1500

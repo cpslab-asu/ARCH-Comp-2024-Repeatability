@@ -1,0 +1,4 @@
+ConBOExp/*.csv
+ConBOExp/ConBO/*
+**/slprj/*
+**/__pycache__/*

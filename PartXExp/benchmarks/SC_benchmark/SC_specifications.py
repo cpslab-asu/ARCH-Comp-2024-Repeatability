@@ -15,11 +15,11 @@ def load_specification_dict(benchmark, instance):
         
     if instance == 1:
         signals = [
-            SignalOptions(control_points = [(3.95, 4.01)]*18, signal_times=np.linspace(0.,35.,18)),
+            SignalOptions(control_points = [(3.99, 4.01)]*18, signal_times=np.linspace(0.,35.,18)),
         ]
     elif instance == 2:
         signals = [
-            SignalOptions(control_points = [(3.95, 4.01)]*20, signal_times=np.linspace(0.,35.,20, endpoint = False), factory=piecewise_constant),
+            SignalOptions(control_points = [(3.99, 4.01)]*20, signal_times=np.linspace(0.,35.,20, endpoint = False), factory=piecewise_constant),
         ]
     
     if benchmark not in spec_dict.keys():
